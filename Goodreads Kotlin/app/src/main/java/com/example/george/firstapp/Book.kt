@@ -1,8 +1,13 @@
 package com.example.george.firstapp
 
-data class Book(
-    val id: Int,
-    val title: String,
-    val rating: Int,
-    val description: String
-)
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
+
+open class Book(
+    @PrimaryKey var id: Int? = 0,
+    var title: String? = "title",
+    var rating: Int? = 0,
+    var description: String? = "description"
+): RealmObject() {
+
+}

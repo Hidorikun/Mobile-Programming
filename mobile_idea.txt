@@ -1,0 +1,14 @@
+I want a better application for Goodreads 
+
+i want to be able to add the books i've read, 
+to edit them, 
+to delete them 
+and to view them in as soon  as I enter the application. 
+
+I also want to be able to track my time reading a book with a stopwatch I can start and stop 
+as I like, and when I stop it I want to be able to update the page I've arrived to, and 
+for it to be syncronized to the good reads app
+
+I also want to be able to search for people on goodread and do all the stuff you can do 
+in the normal site.
+
