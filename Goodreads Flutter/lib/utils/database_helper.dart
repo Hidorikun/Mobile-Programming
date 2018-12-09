@@ -28,7 +28,6 @@ class DatabaseHelper {
 
   Future<Database> get database async {
 
-    print('get database async');
     if (_database == null) {
       _database = await initializeDatabase();
     }
@@ -37,23 +36,23 @@ class DatabaseHelper {
 
   Future<Database> initializeDatabase() async {
 
-    print('initializeDatabase');
+
     // Get the directory path for both Android and iOS to store database.
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'books1.db';
+    String path = directory.path + 'books2.db';
 
     // Open/create the database at a given path
     var bookDatabase = await openDatabase(path, version: 1, onCreate: _createDb);
-    print(bookDatabase.toString());
+//    print(bookDatabase.toString());
     return bookDatabase;
   }
 
   void _createDb(Database db, int newVersion) async {
 
-    print('creating new database');
+//    print('creating new database');
 
     await db.execute('CREATE TABLE $bookTable('
-        '$colId INTEGER PRIMARY KEY AUTOINCREMENT,'
+        '$colId STRING PRIMARY KEY,'
         '$colTitle TEXT, '
         '$colAuthor TEXT, '
         '$colDescription TEXT, '
@@ -70,14 +69,37 @@ class DatabaseHelper {
     return result;
   }
 
+  Future<String> generateId() async {
+    List<Book> books = await getBookList();
+
+    int id = 0;
+
+    for (Book book in books) {
+      try {
+        int k = int.parse(book.id);
+        if (k > id) {
+          id = k;
+        }
+      }catch (e) {
+
+      }
+    }
+
+    return (id + 1).toString();
+  }
+
   // Insert Operation: Insert a Book object to database
   Future<int> insertBook(Book book) async {
-    print('waiting database');
+//    print('waiting database');
     Database db = await this.database;
-    print('got database');
-    print('waiting insert');
+//    print('got database');
+//    print('waiting insert');
+
+    if (book.id == null)
+      book.id = await generateId();
+
     var result = await db.insert(bookTable, book.toMap());
-    print('got insert');
+    print('inserted to local');
     return result;
   }
 
@@ -89,9 +111,9 @@ class DatabaseHelper {
   }
 
   // Delete Operation: Delete a Book object from database
-  Future<int> deleteBook(int id) async {
+  Future<int> deleteBook(String id) async {
     var db = await this.database;
-    int result = await db.rawDelete('DELETE FROM $bookTable WHERE $colId = $id');
+    int result = await db.rawDelete('DELETE FROM $bookTable WHERE $colId = \'$id\'');
     return result;
   }
 
@@ -114,14 +136,19 @@ class DatabaseHelper {
     List<Book> bookList = List<Book>();
     // For loop to create a 'Book List' from a 'Map List'
     for (int i = 0; i < count; i++) {
-      print(Book.fromMap(bookMapList[i]).toString());
 
+      print(bookMapList[i].toString());
       bookList.add(Book.fromMap(bookMapList[i]));
     }
 
     return bookList;
   }
 
+  Future<int> deleteAll() async {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $bookTable');
+    return result;
+  }
 }
 
 

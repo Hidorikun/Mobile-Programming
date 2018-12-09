@@ -33,8 +33,10 @@ class AddDialog(private val activity: Activity) : Dialog(activity), View.OnClick
             R.id.btn_add -> {
                 realm.executeTransaction { realm ->
                     val book = realm.createObject<Book>(getNewId())
-                    book.description = txt_description.text.toString()
+                    book.description = txt_author.text.toString()
                     book.title = txt_name.text.toString()
+                    book.rating = rating_edit.text.toString().toInt()
+                    book.author = txt_author.text.toString()
                 }
                 Snackbar.make(v, "Added", Snackbar.LENGTH_LONG)
                 dismiss()
@@ -47,14 +49,23 @@ class AddDialog(private val activity: Activity) : Dialog(activity), View.OnClick
         }
     }
 
-    private fun getNewId(): Number {
-        val id: Number? = realm.where<Book>().max("id")
+    private fun getNewId(): String {
+        val books = realm.where<Book>().findAll()
 
-        if (id != null) {
-            return id.toInt() + 1
+        var id = 0
+
+        for (book in books) {
+            try {
+                var k = book.id?.toInt()
+                if (k != null && k > id) {
+                    id = k
+                }
+            } catch (e: Exception) {
+
+            }
         }
 
-        return 0
+        return (id + 1).toString()
     }
 
 }

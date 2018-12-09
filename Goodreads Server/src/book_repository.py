@@ -13,10 +13,13 @@ class BookRepository:
                     'id' : str(book['_id']),
                     'title' : book['title'],
                     'author' : book['author'],
-                    'description' : book['description']
+                    'description' : book['description'],
+                    'rating': book['rating']
                 } for book in self.books.find()]
 
     def add(self, book):
+        book = { key : book[key] for key in book }
+        book['rating'] = int(book['rating']) 
         self.books.insert_one(book)
         return 200
 

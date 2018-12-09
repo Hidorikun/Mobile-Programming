@@ -9,7 +9,7 @@ import io.realm.Realm
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.list_item.view.*
 
-class BookAdapter(var realm: Realm) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
+class BookAdapter(var realm: Realm, var booksToDelete: MutableList<Book>) : RecyclerView.Adapter<BookAdapter.BookViewHolder>() {
 
     class BookViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -35,10 +35,13 @@ class BookAdapter(var realm: Realm) : RecyclerView.Adapter<BookAdapter.BookViewH
 
         holder.view.btnDelete.setOnClickListener {
             val id = books[position]?.id
+            booksToDelete.add(books[position]!!)
 
             realm.executeTransaction { realm ->
                 val book = realm.where<Book>().equalTo("id", id).findFirst()!!
+                booksToDelete
                 book.deleteFromRealm()
+
             }
         }
     }

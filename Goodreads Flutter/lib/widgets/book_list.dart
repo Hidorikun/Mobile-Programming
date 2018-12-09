@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/domain/Book.dart';
 import 'package:flutter_first_app/utils/database_helper.dart';
+import 'package:flutter_first_app/utils/server_helper.dart';
 import 'package:flutter_first_app/widgets/book_detail.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -11,7 +12,10 @@ class BookList extends StatefulWidget {
 
 class _BookListState extends State<BookList> {
    DatabaseHelper databaseHelper = DatabaseHelper();
+   ServerHelper serverHelper = ServerHelper();
+
    List<Book> books;
+   List<Book> booksToDelete;
    int count = 0;
 
   @override
@@ -20,12 +24,27 @@ class _BookListState extends State<BookList> {
 
     if (books == null) {
       books = List<Book>();
+      booksToDelete = List<Book>();
       updateListView();
     }
 
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
+        actions: <Widget>[
+          IconButton(
+          icon: Icon(Icons.refresh),
+            onPressed: ()  {
+              print("SYNCHING...");
+//              setState(() {
+//
+//              });
+              serverHelper.synchronize(booksToDelete);
+              print("update list view");
+              updateListView();
+            }
+          )
+        ],
       ),
       body: ListView.builder(
         itemCount: books.length,
@@ -50,7 +69,7 @@ class _BookListState extends State<BookList> {
   }
 
 
-  void updateListView() {
+  void updateListView() async {
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();
     dbFuture.then((database) {
       Future<List<Book>> booksFuture = databaseHelper.getBookList();
@@ -65,10 +84,11 @@ class _BookListState extends State<BookList> {
 
    void _deleteBook(BuildContext context, Book book) async {
       int result = await databaseHelper.deleteBook(book.id);
+      booksToDelete.add(book);
 
       if (result != 0) {
         _showSnackBar(context, 'Book deleted successfully');
-        updateListView();
+        await updateListView();
       }
    }
 
@@ -86,7 +106,7 @@ class _BookListState extends State<BookList> {
      ));
 
      if (result == true) {
-       updateListView();
+       await updateListView();
      }
    }
 }

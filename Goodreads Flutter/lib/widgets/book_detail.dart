@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_first_app/domain/Book.dart';
 import 'package:flutter_first_app/utils/database_helper.dart';
+import 'package:flutter_first_app/utils/server_helper.dart';
 
 class BookDetail extends StatefulWidget {
   final Book book;
@@ -18,6 +19,7 @@ class _BookDetailState extends State<BookDetail> {
   String title;
 
   DatabaseHelper helper = DatabaseHelper();
+  ServerHelper server = ServerHelper();
 
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
