@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "780362359720",
+    "firebase_url": "https://good-reads-george.firebaseio.com",
+    "project_id": "good-reads-george",
+    "storage_bucket": "good-reads-george.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780362359720:android:0dfdad24e40b869b",
+        "android_client_info": {
+          "package_name": "com.gecopuf.george.goodreads"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780362359720-to4o7m8lj74lvdpbvbj0io5phhon11vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gecopuf.george.goodreads",
+            "certificate_hash": "7cf620de010dcb9a4d3051bd90696acce9661e6b"
+          }
+        },
+        {
+          "client_id": "780362359720-dgnussgjr2kens4jnmbnlir3se236a1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnynTelOppNluTJFHwnM77LZFr_m3zh_k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780362359720-dgnussgjr2kens4jnmbnlir3se236a1p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
